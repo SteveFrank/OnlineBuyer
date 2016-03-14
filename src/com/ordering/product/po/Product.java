@@ -30,7 +30,7 @@ public class Product implements Serializable {
 	@Column(length=50,nullable=false)
 	private String image;
 	
-	@ManyToOne(cascade=CascadeType.ALL,targetEntity=Category.class)
+	@ManyToOne(cascade=CascadeType.REFRESH,targetEntity=Category.class)
 	@JoinColumn(name="pro_c_id")
 	private Category category;//外键关联在bean中的写法与实现方法
 

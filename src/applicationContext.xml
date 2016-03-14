@@ -21,7 +21,7 @@
 	<mvc:annotation-driven></mvc:annotation-driven>
 	
 	<bean class="com.mchange.v2.c3p0.ComboPooledDataSource" id="ds">
-		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/onlinetest01"></property>
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/onlinetest02"></property>
 		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
 		<property name="user" value="root"></property>
 		<property name="password" value="1234"></property>
@@ -50,7 +50,7 @@
 				<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.format_sql">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
 			</props>
 		</property>
 	</bean>

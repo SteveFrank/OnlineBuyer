@@ -47,7 +47,6 @@ public class OrderController {
 		 */
 		//从session中获取cart
 		Cart cart = (Cart)request.getSession().getAttribute("cart");
-		
 		Order order = new Order();
 		order.setOid(CommonUtils.uuid());//设置编号
 		order.setOrdertime(new Date());//设置当前系统时间
@@ -71,12 +70,32 @@ public class OrderController {
 		
 		//把所有的订单条目添加到订单中
 		order.setOrderItemsList(orderItemsList);
-		
+		order.setAddress(user.getAddress());
 		//情况购物车
 		cart.clear();
 		orderService.addOrder(order);
 		request.setAttribute("order", order);
 		return "jsps/order/desc";
-		
+	}
+	
+	@RequestMapping(value="/myOrders")
+	public String myOrders(HttpServletRequest request, HttpServletResponse response){
+		/*
+		 * 1、从session得到当前的用户，再获取其他的uid
+		 * 2、使用uid调用OrderService#myOrders(uid)得到该用户的所有订单List<Order>
+		 * 3、把订单表保存到request域中，转发到/jsps/order/list.jsp
+		 */
+		User user = (User) request.getSession().getAttribute("session_user");
+		List<Order> orderList = orderService.myOrders(user.getUid());
+		request.setAttribute("orderList", orderList);
+		return "jsps/order/list";
+	}
+	
+	@RequestMapping(value="/load")
+	public String load(HttpServletRequest request, HttpServletResponse response) {
+		String oid = request.getParameter("oid");
+		Order order = orderService.load(oid);
+		request.setAttribute("order", order);
+		return "jsps/order/desc";
 	}
 }

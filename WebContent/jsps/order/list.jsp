@@ -62,7 +62,7 @@
 			订单编号：${order.oid }成交时间：${order.ordertime }　金额：<font color="red"><b>${order.total }</b></font>　
 			<c:choose>
 				<c:when test="${order.state eq 1 }">
-					<a href="<c:url value='/OrderServlet?method=load&oid=${order.oid}'/>">付款</a>
+					<a href="<c:url value='/load?oid=${order.oid}'/>">付款</a>
 				</c:when>
 				<c:when test="${order.state eq 2 }">
 					<font color="red">等待发货</font>
@@ -79,11 +79,11 @@
 	<c:forEach items='${order.orderItemsList }' var='orderItem'>
 		<tr bordercolor="gray" align="center">
 			<td width="15%">
-				<div><img src="<c:url value='/${orderItem.book.image }'/>" height="75"/></div>
+				<div align="center"><img width="75" src="<c:url value='/${orderItem.product.image }'/>" height="75"/></div>
 			</td>
-			<td>书名：${orderItem.book.bname }</td>
-			<td>单价：${orderItem.book.price }</td>
-			<td>作者：${orderItem.book.author }</td>
+			<td>品名：${orderItem.product.pname }</td>
+			<td>单价：${orderItem.product.price }</td>
+			<td>描述：${orderItem.product.describle }</td>
 			<td>数量：${orderItem.count }</td>
 			<td>小计：${orderItem.subtotal }</td>
 		</tr>

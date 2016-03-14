@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -32,10 +31,10 @@ public class OrderItem implements Serializable {
 	@Column(name="subtotal")
 	private double subtotal;//小计
 	
-	@ManyToOne(cascade=CascadeType.ALL,targetEntity=Order.class)
+	@ManyToOne(cascade=CascadeType.REFRESH,targetEntity=Order.class)
 	@JoinColumn(name="item_o_id")
 	private Order order;//所属订单
-	@OneToOne(optional=false,cascade=CascadeType.ALL,targetEntity=Product.class)
+	@ManyToOne(optional=false,cascade=CascadeType.REFRESH,targetEntity=Product.class)
 	@JoinColumn(name="o_pro_id")
 	private Product product;//所购买的菜品
 

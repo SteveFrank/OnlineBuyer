@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -43,13 +42,13 @@ public class Order implements Serializable {
 	 */
 	@Column(name="state")
 	private int state;//当前订单的状态
-	@ManyToOne(cascade=CascadeType.ALL,targetEntity=User.class)
+	@ManyToOne(cascade=CascadeType.REFRESH,targetEntity=User.class)
 	@JoinColumn(name="o_u_id")
 	private User owner;
 	@Column(length=50,nullable=false)
 	private String address;//收获地址
 	//体现出表之间的关系
-	@OneToMany(cascade=CascadeType.ALL,targetEntity=OrderItem.class)
+	@OneToMany(cascade=CascadeType.REFRESH,targetEntity=OrderItem.class)
 	@JoinColumn(name="o_item_id")
 	private List<OrderItem> orderItemsList;
 	

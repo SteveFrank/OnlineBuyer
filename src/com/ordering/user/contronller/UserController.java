@@ -171,7 +171,7 @@ public class UserController {
 	public String exit(HttpServletRequest request, HttpServletResponse response) {
 		//销毁session
 		request.getSession().invalidate();
-		return "index";
+		return "jsps/main";
 	}
 	
 }

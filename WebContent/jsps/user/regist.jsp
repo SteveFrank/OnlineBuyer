@@ -32,6 +32,7 @@
 	<br/>
 	邮　箱：<input type="text" name="email" value="${form.email }"/>
 	<span style="color: red; font-weight: 900">${errors.email}</span>
+	地    址：<input type="text" name="address" value="${form.address }"/>
 	<br/>
 	<input type="submit" value="注册"/>
 </form>

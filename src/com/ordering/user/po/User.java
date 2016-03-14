@@ -32,6 +32,8 @@ public class User implements Serializable {
 	private String code;//用户激活码
 	@Column(length=10,nullable=false)
 	private boolean state;//用户激活状态
+	@Column(length=100,nullable=false)
+	private String address;
 	
 	public String getUid() {
 		return uid;
@@ -68,6 +70,12 @@ public class User implements Serializable {
 	}
 	public void setState(boolean state) {
 		this.state = state;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	
 	@Override

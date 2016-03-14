@@ -38,9 +38,13 @@
 </div>
 
 <c:forEach items="${sellerList}" var="seller">
-	<div>
-		<a href="<c:url value='/showProductBySid?sid=${seller.sid }'/>">${seller.salename}</a>
-	</div>
+	<c:choose>
+		<c:when test="${seller.accpetActive eq '1' }">
+			<div>
+				<a href="<c:url value='/showProductBySid?sid=${seller.sid }'/>">${seller.salename}</a>
+			</div>
+		</c:when>
+	</c:choose>
 </c:forEach>
   </body>
 </html>
