@@ -38,7 +38,7 @@
 	<!-- <img src="<c:url value='/product_img/test1.jpg'/>" border="0"/> -->
 	
     <a href="<c:url value='/showProductDesc?pid=${product.pid }'/>">
-    	<img width="150" height="160" src="<c:url value='/${product.image }'/>" border="0"/>
+    	<img width="150" height="160" src="${product.image }" border="0"/>
     </a>
     <br/>
    	<a href="<c:url value='/showProductDesc?pid=${product.pid }'/>">${product.pname }</a>

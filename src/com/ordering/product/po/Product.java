@@ -27,7 +27,7 @@ public class Product implements Serializable {
 	private double price;
 	@Column(length=50,nullable=false)
 	private String describle;
-	@Column(length=50,nullable=false)
+	@Column(length=150,nullable=false)
 	private String image;
 	
 	@ManyToOne(cascade=CascadeType.REFRESH,targetEntity=Category.class)

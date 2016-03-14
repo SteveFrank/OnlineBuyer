@@ -52,7 +52,7 @@
   </head>
   <body>
   <div>
-    <img width="140" height="150" src="<c:url value='/${product.image }'/>" border="0"/>
+    <img width="140" height="150" src="${product.image }" border="0"/>
   </div>
   <ul>
     <li>介绍：${product.describle}</li>
