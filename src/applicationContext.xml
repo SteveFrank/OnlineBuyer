@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+        
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	<context:component-scan base-package="com.ordering"></context:component-scan>
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
+	<bean class="com.mchange.v2.c3p0.ComboPooledDataSource" id="ds">
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/onlinetest01"></property>
+		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+		<property name="user" value="root"></property>
+		<property name="password" value="1234"></property>
+		<property name="acquireIncrement" value="3"></property>
+		<property name="initialPoolSize" value="5"></property>
+		<property name="minPoolSize" value="2"></property>
+		<property name="maxPoolSize" value="8"></property>
+	</bean>
+
+	<bean class="com.ordering.utils.JdbcUtils" id="jdbcUtils">
+		<property name="ds">
+			<ref bean="ds"></ref>
+		</property>
+	</bean>
+	
+	<!-- JPA实体管理工厂的配置 使用@PersistenceContext会自动注入EntityManager,可以使用 @PersistenceUnit注入entityManagerFactory -->
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="ds" />
+		<property name="persistenceUnitName" value="unitName"></property>
+		<property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter" />
+		<!--待扫描的实体类包，不再需要persistence.xml了 -->
+		<property name="packagesToScan" value="com.ordering" />
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!--
+		指定实现JPA的适配器，主要作用如下：
+		1、取代persistence.xml中的<provider>
+		2、指定方言
+		3、通知“entityManagerFactory”产生什么样的entityManager
+		4、还可以使用EclipseLinkJpaVendorAdapter(Toplink)，openJpaVendorAdapter
+	 -->
+	<bean id="hibernateJpaVendorAdapter"
+		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+		<property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
+	</bean>
+
+
+	<!-- Jpa 事务配置 -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	
+	<!-- Spring Data Jpa配置 -->
+	<!-- <jpa:repositories base-package="dao.impl" transaction-manager-ref="transactionManager" 
+		entity-manager-factory-ref="entityManagerFactory"/> -->
+	
+	<!-- 
+		对使用@Transactional的方法启用AOP
+		proxy-target-class:表示是否对“目标类”启用代理。true:表示使用cglib方式(类)，false:表示使用Proxy方式（接口）
+	
+	-->
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="false" />
+	
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+</beans>
